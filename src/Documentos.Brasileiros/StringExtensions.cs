@@ -6,7 +6,7 @@ internal static class StringExtensions
 {
     private static readonly Regex _regexApenasNumeros = new(@"[^\d]");
 
-    public static string? RemoverMascara(this string? value)
+    public static string? ObterApenasCaracteresNumericos(this string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {

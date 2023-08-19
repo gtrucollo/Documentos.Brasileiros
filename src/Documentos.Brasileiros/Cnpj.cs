@@ -2,13 +2,13 @@
 
 namespace Documentos.Brasileiros;
 
-public class Cpf : DocumentoBase
+public class Cnpj : DocumentoBase
 {
     private readonly string? _valor;
 
-    private readonly int[] _digitoVerificadorPesos = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+    private readonly int[] _digitoVerificadorPesos = { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-    public Cpf(string? valor)
+    public Cnpj(string? valor)
     {
         _valor = valor.ObterApenasCaracteresNumericos();
     }
@@ -20,7 +20,7 @@ public class Cpf : DocumentoBase
             return false;
         }
 
-        if (_valor.Length != 11)
+        if (_valor.Length != 14)
         {
             return false;
         }
@@ -30,11 +30,11 @@ public class Cpf : DocumentoBase
             return true;
         }
 
-        int primeiroDigito = this.ObterDigitoMod11(_valor[..9], _digitoVerificadorPesos.Skip(1).ToArray());
+        int primeiroDigito = this.ObterDigitoMod11(_valor[..12], _digitoVerificadorPesos.Skip(1).ToArray());
 
-        int segundoDigito = this.ObterDigitoMod11(_valor[..10], _digitoVerificadorPesos);
+        int segundoDigito = this.ObterDigitoMod11(_valor[..13], _digitoVerificadorPesos);
 
-        string documentoCalculado = string.Format("{0}{1}{2}", _valor[..9], primeiroDigito, segundoDigito);
+        string documentoCalculado = string.Format("{0}{1}{2}", _valor[..12], primeiroDigito, segundoDigito);
 
         return _valor.Equals(documentoCalculado);
     }
@@ -46,12 +46,12 @@ public class Cpf : DocumentoBase
             return string.Empty;
         }
 
-        return string.Format("{0:000\\.000\\.000-00}", Convert.ToInt64(_valor));
+        return string.Format("{0:00\\.000\\.000/0000-00}", Convert.ToInt64(_valor));
     }
 
     public override string GerarRegistroValido()
     {
-        string documentoGerado = this.ObterDigitosAleatorios(9);
+        string documentoGerado = this.ObterDigitosAleatorios(12);
 
         int primeiroDigito = this.ObterDigitoMod11(documentoGerado, _digitoVerificadorPesos.Skip(1).ToArray());
 
