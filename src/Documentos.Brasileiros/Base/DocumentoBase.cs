@@ -6,7 +6,10 @@ public abstract class DocumentoBase
 
     public abstract string ObterComMascaraca();
 
-    public abstract string GerarRegistroValido();
+    public virtual string GerarRegistroValido()
+    {
+        throw new NotImplementedException();
+    }
 
     public virtual int ObterDigitoMod11(string valor, int[] pesos)
     {
